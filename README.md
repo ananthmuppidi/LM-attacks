@@ -30,16 +30,17 @@ Our first task was to build classifier to detect attacks like TextFooler. We use
 The main purpose of building this classifier for detecting adversarial examples was for comparison (explained in next section)
 
 ## Interpretability
+### Probing
 We use probing classifiers to analyze the internal represntation of the models while under adversarial attack. We used simple Logistic Regression model to probe. The training data contained 449 examples of adversarial examples and 449 examples of clean examples. The results for this can be seen through the diagram below:
 
 ![alt text](image.png)
 
 We also train probing classifiers on the same dataset but with the Canine model instead. Canine is a character level model and hence, it should be largely resistant to how textfooler changes words (based on word semantics). This gives us a base accuracy to compare the scores.
 
-## Comparison of attacks
+### Comparison of attacks
 It's clear from looking at the scores that the model performs better on the classification task of adversarial examples when done using the hidden layer representations. The model, especially, in the later layers makes divergences between the normal and adversarial examples. We conclude that even when training something like an adversarial shields, it becomes more effective when done using the hidden state representations.
 
-## Steering
+### Steering
 We use the embedding representation obtained previously along with the knowledge obtained via probing that information regarding adversarial examples is best encoded by the 12th layer for creating a steering vector. We take mean over all normal and adversarial examples seperately, and then get the steering vector as:
 
 Steering vector = mean(x_adv) - mean(x_normal)
